@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  xmrig:
+    image: jrkalf/xmrig-kryptokrona:latest
+    container_name: xmrig-kryptokrona
+    #environment:
+    #  - TZ=Europe/Amsterdam
+    volumes:
+      - ./config.json:/xmrig/etc/config.json:ro
+      - ./log:/xmrig/log
+    command: ["xmrig", "--config=/xmrig/etc/config.json"]
+    restart: always
