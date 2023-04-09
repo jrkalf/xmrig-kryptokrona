@@ -12,9 +12,8 @@ RUN apt update && apt -y install git build-essential cmake libuv1-dev libssl-dev
 RUN git clone ${XMRIG_URL} /xmrig && \
     cd /xmrig && git checkout ${XMRIG_VERSION}
 
-WORKDIR /xmrig/scripts
-RUN mkdir -p /xmrig/build && chmod 755 *.sh
 WORKDIR /xmrig/build
+RUN sed -i 's/1;/0;/g' ../src/donate.h
 RUN cmake .. -DWITH_OPENCL=OFF -DWITH_CUDA=OFF && \
     make -j$(nproc)
 
