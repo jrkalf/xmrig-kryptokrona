@@ -1,47 +1,155 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kryptokrona
+  labels:
+    name: kryptokrona
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kryptokrona-config
+  namespace: kryptokrona
+data:
+  config.json: |
+    {
+        "api": {
+            "id": null,
+            "worker-id": null
+        },
+        "http": {
+            "enabled": false,
+            "host": "127.0.0.1",
+            "port": 0,
+            "access-token": null,
+            "restricted": true
+        },
+        "autosave": false,
+        "background": false,
+        "colors": true,
+        "title": true,
+        "randomx": {
+            "init": -1,
+            "init-avx2": -1,
+            "mode": "fast",
+            "1gb-pages": true,
+            "rdmsr": false,
+            "wrmsr": false,
+            "cache_qos": false,
+            "numa": false,
+            "scratchpad_prefetch_mode": 2
+        },
+        "cpu": {
+            "enabled": true,
+            "huge-pages": true,
+            "huge-pages-jit": false,
+            "hw-aes": false,
+            "priority": 2,
+            "memory-pool": true,
+            "yield": false,
+      "asm": true,
+            "argon2-impl": null,
+            "astrobwt-max-size": 550,
+            "astrobwt-avx2": false,
+            "argon2": [0, 1, 2, 3],
+            "astrobwt": [0, 1, 2, 3],
+            "cn": [0, 1, 2, 3],
+            "cn-heavy": [0, 1, 2, 3],
+            "cn-lite": [0, 1, 2, 3],
+            "cn-pico": [0, 1, 2, 3],
+            "cn/upx2": [0, 1, 2, 3],
+            "rx": [0, 1, 2, 3],
+            "rx/wow": [0, 1, 2, 3],
+            "cn-lite/0": false,
+            "cn/0": false,
+            "rx/arq": "rx/wow",
+            "rx/keva": "rx/wow"
+        },
+        "donate-level": 0,
+        "donate-over-proxy": 0,
+        "log-file": "/xmrig/log/xmrig.log",
+        "pools": [
+            {
+                "url": "techy.ddns.net:3333",
+                "user": "SEKReXJnqiwiV3Bv6mvfR2ESmLbZjZG2QKDKiywrjwNtU1a1zcJT4Lni72rUS6rUoMU9uP8Eczhg966T9n1jELmVc6Ln8SdYQNp",
+                "pass": "external-users",
+                "keepalive": true,
+                "nicehash": false,
+                "variant": "trtl",
+                "algo": "cryptonight-pico/trtl"
+            }
+        ],
+        "print-time": 60,
+        "health-print-time": 60,
+        "dmi": true,
+        "retries": 5,
+        "retry-pause": 5,
+        "syslog": false,
+        "tls": {
+            "enabled": false,
+            "protocols": null,
+            "cert": null,
+            "cert_key": null,
+            "ciphers": null,
+            "ciphersuites": null,
+            "dhparam": null
+        },
+        "dns": {
+            "ipv6": false,
+            "ttl": 30
+        },
+        "user-agent": null,
+        "verbose": 0,
+        "watch": true,
+        "pause-on-battery": false,
+        "pause-on-active": false
+    }
+binaryData: {}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: xmrig
-  name: xmrig
-  namespace: xmrig 
+    app: kryptokrona
+  name: kryptokrona
+  namespace: kryptokrona
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: xmrig
+      app: kryptokrona
   strategy: {}
   template:
     metadata:
       labels:
-        app: xmrig
+        app: kryptokrona
     spec:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - xmrig
-            topologyKey: "kubernetes.io/hostname"
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - kryptokrona
+              topologyKey: "kubernetes.io/hostname"
       containers:
-      - image: jrkalf/xmrig-kryptokrona:latest
-        name: xmrig
-        command: ["xmrig"]
-        args: ["-c", "/xmrig/etc/config.json"]
-        resources:
-          limits:
-            memory: "2Gi"
-            cpu: "2"
-          requests:
-            memory: "1Gi"
-            cpu: "1"      
-        volumeMounts:
-        - name: config-volume
-          mountPath: /xmrig/etc
+        - image: jrkalf/xmrig-kryptokrona:latest
+          name: kryptokrona
+          command: ["/xmrig/xmrig"]
+          args: ["-c", "/xmrig/etc/config.json"]
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /xmrig/etc
       volumes:
-      - name: config-volume
-        configMap:
-          name: xmrig-config
+        - name: config-volume
+          configMap:
+            name: kryptokrona-config

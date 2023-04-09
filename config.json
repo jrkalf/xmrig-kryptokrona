@@ -64,7 +64,7 @@
         {
             "url": "techy.ddns.net:3333",
             "user": "SEKReXJnqiwiV3Bv6mvfR2ESmLbZjZG2QKDKiywrjwNtU1a1zcJT4Lni72rUS6rUoMU9uP8Eczhg966T9n1jELmVc6Ln8SdYQNp",
-            "pass": "external-users",
+            "pass": "${HOSTNAME}@external-users",
             "keepalive": true,
             "nicehash": false,
             "variant": "trtl",
