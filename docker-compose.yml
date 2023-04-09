@@ -8,5 +8,5 @@ services:
     volumes:
       - ./config.json:/xmrig/etc/config.json:ro
       - ./log:/xmrig/log
-    command: ["xmrig", "--config=/xmrig/etc/config.json"]
+    command: ["/xmrig/xmrig", "--config=/xmrig/etc/config.json"]
     restart: always
