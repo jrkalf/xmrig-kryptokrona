@@ -1,7 +1,7 @@
 ARG ARCH=
 
 FROM ${ARCH}ubuntu as prepare
-ARG version "v6.19.2"
+ENV VERSION "v6.19.2"
 
 ENV TZ=Europe/Amsterdam
 ENV PATH=/xmrig:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -9,8 +9,9 @@ ENV XMRIG_URL=https://github.com/xmrig/xmrig.git
 
 RUN apt update && apt -y install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
 
-RUN git clone ${XMRIG_URL} /xmrig && \
-    cd /xmrig && git checkout $version
+RUN git clone ${XMRIG_URL} /xmrig \
+    && cd /xmrig \
+    && git checkout ${VERSION}
 
 WORKDIR /xmrig/build
 RUN sed -i 's/1;/0;/g' ../src/donate.h
@@ -24,12 +25,12 @@ FROM ${ARCH}ubuntu
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG version "v6.19.2"
+ENV VERSION "v6.19.2"
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-url="https://github.com/jrkalf/xmrig-kryptokrona" \
       org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.schema-version=$version
+      org.label-schema.schema-version=${VERSION}
 
 WORKDIR /xmrig
 
