@@ -10,7 +10,7 @@ ENV XMRIG_URL=https://github.com/xmrig/xmrig.git
 RUN apt update && apt -y install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
 
 RUN git clone ${XMRIG_URL} /xmrig && \
-    cd /xmrig && git checkout ${version}
+    cd /xmrig && git checkout $(version)
 
 WORKDIR /xmrig/build
 RUN sed -i 's/1;/0;/g' ../src/donate.h
