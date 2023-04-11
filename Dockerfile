@@ -1,16 +1,15 @@
 ARG ARCH=
 FROM ${ARCH}ubuntu as prepare
+ARG version "v6.19.2"
 
-#LABEL org.label-schema.build-date=2023-04-03T22:35:56Z org.label-schema.name=XMRig org.label-schema.description=Kryptokrona (XKR) CPU miner packaged in a lightweight Docker image that you can easily deploy to a Kubernetes cluster. org.label-schema.url=https://xmrig.com/miner org.label-schema.vcs-url=https://github.com/jrkalf/xmrig-kryptokrona org.label-schema.version=6.19.2 maintainer=Jelle Kalf [https://github.com/jrkalf] version=6.19.2
 ENV TZ=Europe/Amsterdam
 ENV PATH=/xmrig:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-ENV VERSION "6.17.0"
 ENV XMRIG_URL=https://github.com/xmrig/xmrig.git
 
 RUN apt update && apt -y install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
 
 RUN git clone ${XMRIG_URL} /xmrig && \
-    cd /xmrig && git checkout ${XMRIG_VERSION}
+    cd /xmrig && git checkout ${version}
 
 WORKDIR /xmrig/build
 RUN sed -i 's/1;/0;/g' ../src/donate.h
@@ -24,11 +23,12 @@ FROM ${ARCH}ubuntu
 
 ARG BUILD_DATE
 ARG VCS_REF
+ARG version
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-url="https://github.com/jrkalf/xmrig-kryptokrona" \
       org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.schema-version="1.0.0-rc2"
+      org.label-schema.schema-version=$version
 
 WORKDIR /xmrig
 
