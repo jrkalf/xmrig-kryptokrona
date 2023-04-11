@@ -32,7 +32,23 @@ jobs:
         run: echo "hello world!"
         if: github.event_name == 'pull_request'
         continue-on-error: true
-
-      - name: Push to main
+#       -
+#         name: Build and push Testing
+#         uses: docker/build-push-action@v4
+#         with:
+#           context: .
+#           push: true
+#           platforms: linux/amd64,linux/arm64,linux/arm/v7
+#           tags: jrkalf/xmrig-kryptokrona:testing-$(date +%s)
+#         if: github.ref != 'refs/heads/main'
+      -
+        name: Build and push production
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          tags: jrkalf/xmrig-kryptokrona:gha-$(date +%s)
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: docker buildx build --platform linux/amd64 . --file Dockerfile --push --tag jrkalf/xmrig-kryptokrona:gha-testing-$(date +%s)
+
+#         run: docker buildx build --platform linux/amd64 . --file Dockerfile --push --tag jrkalf/xmrig-kryptokrona:gha-testing-$(date +%s)
