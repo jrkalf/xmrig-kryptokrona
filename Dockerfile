@@ -1,4 +1,5 @@
 ARG ARCH=
+
 FROM ${ARCH}ubuntu as prepare
 ARG version "v6.19.2"
 
@@ -23,7 +24,7 @@ FROM ${ARCH}ubuntu
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG version
+ARG version "v6.19.2"
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-url="https://github.com/jrkalf/xmrig-kryptokrona" \
