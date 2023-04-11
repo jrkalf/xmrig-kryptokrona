@@ -2,20 +2,26 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - 'main'
+      - 'dev'
+      - 'v*.*.*'
+    tags:
+      - 'v*.*.*'
   pull_request:
-    branches: [ "main" ]
+    branches: 
+      - 'main'
+      - 'dev'
+      - 'v*.*.*'
 
 jobs:
-  buildx:
+  build-xmrig-kryptokrona:
     runs-on: ubuntu-latest
     steps:
       -
         name: Checkout
         uses: actions/checkout@v3
       -
-        # Add support for more platforms with QEMU (optional)
-        # https://github.com/docker/setup-qemu-action
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       -
@@ -28,27 +34,38 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_API }}
       -
+        name: Docker meta
+        id: meta_dogecoin
+        uses: docker/metadata-action@v4
+        with:
+          images: jrkalf/xmrig-kryptokrona
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+      -
         name: Hello World!
         run: echo "hello world!"
         if: github.event_name == 'pull_request'
         continue-on-error: true
-#       -
-#         name: Build and push Testing
-#         uses: docker/build-push-action@v4
-#         with:
-#           context: .
-#           push: true
-#           platforms: linux/amd64,linux/arm64,linux/arm/v7
-#           tags: jrkalf/xmrig-kryptokrona:testing-$(date +%s)
-#         if: github.ref != 'refs/heads/main'
       -
         name: Build and push production
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: true
+          build-args: |
+            
           platforms: linux/amd64,linux/arm64,linux/arm/v7
-          tags: jrkalf/xmrig-kryptokrona:gha-$(date +%s)
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
+#           push: true
+#           tags: jrkalf/xmrig-kryptokrona:gha-$(date +%s)
+#         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 #         run: docker buildx build --platform linux/amd64 . --file Dockerfile --push --tag jrkalf/xmrig-kryptokrona:gha-testing-$(date +%s)
