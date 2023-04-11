@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build --platform linux/arm/v7,linux/arm64,linux/amd64 . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 . --file Dockerfile --tag my-image-name:$(date +%s)
