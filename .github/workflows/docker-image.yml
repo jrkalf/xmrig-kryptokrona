@@ -35,7 +35,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_API }}
       -
         name: Docker meta
-        id: meta_dogecoin
+        id: meta
         uses: docker/metadata-action@v4
         with:
           images: jrkalf/xmrig-kryptokrona
