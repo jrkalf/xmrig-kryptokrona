@@ -127,7 +127,8 @@ This repo is a based on works of:
 - [Bufanda](https://github.com/bufanda/docker-xmrig)
 
 ## Contact 
-Find me on [GitHub](https://github.com/jrkalf/).
+- Find me on Kryptokrona's [Hugin Messenger](https://hugin.chat) at addres `SEKReT7odTKSJjXs9BqKAwAEZhW8XuiowdFd4MjTUidc11fur3TpGjPeKKqaCzZdbF3YBf1RfqFowD8WrWAei5grQXb8fXujX7K`.
+- Find me on [GitHub](https://github.com/jrkalf/), [Mastodon](https://mastodon.nl/@jelle77) or [Twitter](https://twitter.com/jkalf).
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
