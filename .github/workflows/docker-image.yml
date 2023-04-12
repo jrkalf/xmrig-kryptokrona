@@ -48,6 +48,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=sha
+            type=latest
       -
         name: Hello World!
         run: echo "hello world!"
@@ -64,8 +65,3 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-#           push: true
-#           tags: jrkalf/xmrig-kryptokrona:gha-$(date +%s)
-#         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-#         run: docker buildx build --platform linux/amd64 . --file Dockerfile --push --tag jrkalf/xmrig-kryptokrona:gha-testing-$(date +%s)
