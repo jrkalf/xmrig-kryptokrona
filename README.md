@@ -1,3 +1,10 @@
+[![Docker Image CI](https://github.com/jrkalf/xmrig-kryptokrona/actions/workflows/docker-image.yml/badge.svg)](https://github.com/jrkalf/xmrig-kryptokrona/actions/workflows/docker-image.yml)
+![Supports aarch64 Architecture][aarch64-shield]
+![Supports amd64 Architecture][amd64-shield]
+![Supports armv7 Architecture][armv7-shield]
+![Maintenance][maintenance-shield]
+![GitHub commit activity][activity-shield]
+
 # XMRig miner image for Kryptokrona
 Kryptokrona (XKR) CPU miner packaged in a lightweight Docker image that you can easily deploy to a Kubernetes cluster or your docker environment using docker compose.
 
@@ -9,8 +16,8 @@ This Docker image was built with the latest XMRig version from source on Ubuntu 
 
 ## Quick reference
 - **Maintained by**: [Jelle Kalf](https://github.com/jrkalf)
-- **Supported architectures**: `arm32v7`, `arm64v8`
-- **Supported tags**: `latest`, `6.19.2`
+- **Supported architectures**: `amd64`,`arm64v8`,`arm32v7`
+- **Supported tags**: `latest`, `v6.19.2`
 
 
 ## How to use this image
@@ -121,3 +128,9 @@ This repo is a based on works of:
 
 ## Contact 
 Find me on [GitHub](https://github.com/jrkalf/).
+
+[aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
+[amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
+[armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
+[activity-shield]: https://img.shields.io/github/commit-activity/y/jrkalf/xmrig-kryptokrona
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2023
