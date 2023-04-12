@@ -53,13 +53,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          # build-args: |
-          #   version={{version}}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
-          push: ${{ github.ref == 'refs/heads/v*.*.*' && github.event_name != 'pull_request' }}
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-#           push: true
-#           tags: jrkalf/xmrig-kryptokrona:gha-$(date +%s)
-#         run: docker buildx build --platform linux/amd64 . --file Dockerfile --push --tag jrkalf/xmrig-kryptokrona:gha-testing-$(date +%s)
