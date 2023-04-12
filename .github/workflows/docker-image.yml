@@ -38,9 +38,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: jrkalf/xmrig-kryptokrona
-          # generate Docker tags based on the following events/attributes
-          #            type=sha
+          images: ${{ github.repository }}
           tags: |
             type=schedule
             type=ref,event=branch
@@ -49,17 +47,11 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
       -
-        name: Hello World!
-        run: echo "hello world!"
-        if: github.event_name == 'pull_request'
-        continue-on-error: true
-      -
         name: Build and push production
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/amd64
-          #,linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ steps.meta.outputs.tags }}
