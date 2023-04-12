@@ -35,13 +35,13 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_API }}
       -
         name: Docker meta
-        id: meta_dogecoin
+        id: meta
         uses: docker/metadata-action@v4
         with:
           images: jrkalf/xmrig-kryptokrona
           # generate Docker tags based on the following events/attributes
           tag-custom: latest
-          # tags:           type=sha
+          #            type=sha
           tags: |
             type=schedule
             type=ref,event=branch
